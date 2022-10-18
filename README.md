@@ -60,7 +60,8 @@ Next, the following endpoints should be created:
 For testing these end points, use the following payloads:
 
 ```json
-"Client": {
+Client: 
+{
   "idClient": 0,
   "clientName": "Name Client"
 }
@@ -68,7 +69,8 @@ For testing these end points, use the following payloads:
 
 
 ```json
-"Product": {
+Product: 
+{
   "idProduct": 0,
   "productName": "Name Product",
   "productValue": "10.00"
@@ -77,7 +79,8 @@ For testing these end points, use the following payloads:
 
 ```json
 
-"Order": {
+Order: 
+{
   "idClient": 1,
   "idProduct": [1, 2, 3],
   "address": {
