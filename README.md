@@ -15,7 +15,7 @@ This system manage four entitities:
 
 These entities are composed by the following attributes:
 
-![OrderSys](https://user-images.githubusercontent.com/13739735/196417927-e3a22ca4-7b7f-4681-be13-c92a66cc7655.png)
+![image](https://user-images.githubusercontent.com/13739735/196557427-a63bf565-8e34-49e0-a25b-199621e618a5.png)
 
 ## ⚙️ Development
 
