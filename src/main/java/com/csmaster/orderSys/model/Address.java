@@ -1,79 +1,50 @@
 package com.csmaster.orderSys.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import com.csmaster.orderSys.dto.AddressRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "ADDRESS")
 public class Address {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	@SequenceGenerator(name = "SEQ_ADDRESS", sequenceName = "SEQ_ADDRESS", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ADDRESS")
 	private Integer idAddress;
+
+	@Column(name = "STREET")
 	private String street;
+
+	@Column(name = "STABLISHMENT_NUMBER")
 	private Integer stablishmentNumber;
+
+	@Column(name = "NEIGHBORHOOD")
 	private String neighborhood;
+
+	@Column(name = "COMPLEMENT")
 	private String complement;
+
+	@Column(name = "ZIP_CODE")
 	private String zipCode;
-	
-	@OneToOne(mappedBy = "address")
-	private Order order;
 
-	public Integer getIdAddress() {
-		return idAddress;
+	public static Address of(AddressRequest request) {
+		return Address.builder()
+				.idAddress(request.getId())
+				.street(request.getStreet())
+				.stablishmentNumber(request.getStablishmentNumber())
+				.neighborhood(request.getNeighborhood())
+				.complement(request.getComplement())
+				.zipCode(request.getZipCode())
+				.build();
 	}
-
-	public void setIdAddress(Integer idAddress) {
-		this.idAddress = idAddress;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public Integer getStablishmentNumber() {
-		return stablishmentNumber;
-	}
-
-	public void setStablishmentNumber(Integer stablishmentNumber) {
-		this.stablishmentNumber = stablishmentNumber;
-	}
-
-	public String getNeighborhood() {
-		return neighborhood;
-	}
-
-	public void setNeighborhood(String neighborhood) {
-		this.neighborhood = neighborhood;
-	}
-
-	public String getComplement() {
-		return complement;
-	}
-
-	public void setComplement(String complement) {
-		this.complement = complement;
-	}
-
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	@Override
-	public String toString() {
-		return "Address [idAddress=" + idAddress + ", street=" + street + ", stablishmentNumber=" + stablishmentNumber
-				+ ", neighborhood=" + neighborhood + ", complement=" + complement + ", zipCode=" + zipCode + "]";
-	}
-
-	
-	
 }

@@ -2,75 +2,45 @@ package com.csmaster.orderSys.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.csmaster.orderSys.dto.OrderRequest;
+import lombok.*;
 
+@Data
 @Entity
-@Table(name = "orders")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "ORDERS")
 public class Order {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_order")
+	@Column(name = "ID")
+	@SequenceGenerator(name = "SEQ_ORDERS", sequenceName = "SEQ_ORDERS", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ORDERS")
 	private Integer idOrder;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "FK_CLIENT",
+			referencedColumnName = "ID",
+			foreignKey = @ForeignKey(name = "FK_ORDER_CLIENT"))
 	private Client client;
 
+	@Column
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_ADDRESS", referencedColumnName = "ID",
+			foreignKey = @ForeignKey(name = "FK_OREDER_ADDRESS"))
 	private Address address;
 
 	@ManyToMany(targetEntity = Product.class)
 	private List<Product> products;
 
-	public Integer getIdOrder() {
-		return idOrder;
+	public static Order of(OrderRequest request) {
+		return Order.builder()
+				.idOrder(request.getIdOrder())
+				.client(Client.of(request.getClientRequest()))
+				.address(Address.of(request.getAddress()))
+				.build();
 	}
-
-	public void setIdOrder(Integer idOrder) {
-		this.idOrder = idOrder;
-	}
-
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-
-	@Override
-	public String toString() {
-		return "Order [idOrder=" + idOrder + ", client=" + client + ", address=" + address + ", products=" + products
-				+ "]";
-	}
-
 }

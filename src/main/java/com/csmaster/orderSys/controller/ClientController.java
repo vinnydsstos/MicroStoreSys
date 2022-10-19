@@ -3,7 +3,13 @@ package com.csmaster.orderSys.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.csmaster.orderSys.dto.ClientRequest;
+import com.csmaster.orderSys.dto.ClientResponse;
+import com.csmaster.orderSys.util.exceptions.NotFoundException;
+import com.csmaster.orderSys.util.exceptions.PersistenceException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.csmaster.orderSys.model.Client;
 import com.csmaster.orderSys.repository.ClientRepository;
 
+@Slf4j
 @RestController
 @RequestMapping("/cliente")
 public class ClientController {
@@ -24,44 +31,28 @@ public class ClientController {
 	@Autowired
 	private ClientRepository clientRepository;
 
-	@GetMapping("/lista")
-	public List<Client> findAll() {
-		return clientRepository.findAll();
+	@GetMapping("listar")
+	public List<ClientResponse> findAll() {
+		return ClientResponse.of(clientRepository.findAll());
 	}
 
-	@GetMapping("/{id}")
-	public Client findById(@PathVariable Integer id) {
-		Optional<Client> cliente = clientRepository.findById(id);
-		if (cliente.isPresent()) {
-			return cliente.get();
-		} else {
-			return null;
-		}
+	@GetMapping("{id}")
+	public ClientResponse findById(@PathVariable Integer id) {
+		return clientRepository.findById(id)
+				.map(ClientResponse::of)
+				.orElseThrow(() -> new NotFoundException("Cliente não encontrado."));
 	}
 	
 	@PostMapping
-	public String save(@RequestBody Client client) {
-		System.out.println(client);
+	public ClientResponse save(@RequestBody ClientRequest request) {
 		try {
-			clientRepository.save(client);
-			return "Sucesso";
+			return ClientResponse.of(clientRepository.save(Client.of(request)));
 		} catch (Exception e) {
-			return "Houve um erro ao adicionar";
-		}
-	}
-	
-	@PutMapping
-	public String update(@RequestBody Client client) {
-		try {
-			clientRepository.save(client);
-			return "Sucesso";
-		} catch (Exception e) {
-			return "Houve um erro ao adicionar";
+			throw new PersistenceException("Erro ao salver cliente");
 		}
 	}
 
-	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("{id}")
 	public String update(@PathVariable Integer id) {
 		try {
 			clientRepository.deleteById(id);
