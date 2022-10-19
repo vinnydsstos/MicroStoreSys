@@ -1,70 +1,31 @@
 package com.csmaster.orderSys.model;
 
-import java.math.BigInteger;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
+@Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "PRODUCT")
 public class Product {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	@SequenceGenerator(name = "SEQ_PRODUCT", sequenceName = "SEQ_PRODUCT", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PRODUCT")
 	private Integer idProduct;
+
+	@Column(name = "NAME")
 	private String productName;
+
+	@Column(name = "VALUE")
 	private Double productValue;
 
-	public Product() {
-		super();
+	public Product(Integer id) {
+		this.idProduct = id;
 	}
-
-	public Product(Integer idProduct) {
-		super();
-		this.idProduct = idProduct;
-	}
-
-	public Product(Integer idProduct, String productName, Double productValue) {
-		super();
-		this.idProduct = idProduct;
-		this.productName = productName;
-		this.productValue = productValue;
-	}
-
-	public Integer getIdProduct() {
-		return idProduct;
-	}
-
-	public void setIdProduct(Integer idProduct) {
-		this.idProduct = idProduct;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public Double getProductValue() {
-		return productValue;
-	}
-
-	public void setProductValue(Double productValue) {
-		this.productValue = productValue;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [idProduct=" + idProduct + ", productName=" + productName + ", productValue=" + productValue
-				+ "]";
-	}
-	
-	
-
 }

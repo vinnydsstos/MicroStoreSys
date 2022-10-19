@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.csmaster.orderSys.dto.OrderRequestData;
+import com.csmaster.orderSys.dto.OrderRequest;
 import com.csmaster.orderSys.model.Address;
 import com.csmaster.orderSys.model.Order;
 import com.csmaster.orderSys.repository.AddressRepository;
@@ -25,7 +25,6 @@ public class OrdersController {
 
 	@Autowired
 	private OrdersRepository ordersRepository;
-	
 
 	@Autowired
 	private AddressRepository addressRepository;
@@ -46,41 +45,15 @@ public class OrdersController {
 	}
 	
 	@PostMapping
-	public String save(@RequestBody OrderRequestData rqOrder) {
+	public String save(@RequestBody OrderRequest request) {
 		try {
-			// save the address
-			Address addressToSave = rqOrder.getAddress();
-			addressRepository.save(addressToSave);
-			
-			// save the order
-			Order toSave = rqOrder.toOrder();
-			toSave.setAddress(addressToSave);
-			ordersRepository.save(toSave);
+			ordersRepository.save(Order.of(request));
 			
 			return "Sucesso!";
 		} catch (Exception e) {
 			return "Houve um erro ao salvar:"  + e.getMessage();
 		}
 	}
-	
-	@PutMapping
-	public String update(@RequestBody OrderRequestData rqOrder) {
-		try {
-			// save the address
-			Address addressToSave = rqOrder.getAddress();
-			addressRepository.save(addressToSave);
-			
-			// save the order
-			Order toSave = rqOrder.toOrder();
-			toSave.setAddress(addressToSave);
-			ordersRepository.save(toSave);
-			
-			return "Sucesso!";
-		} catch (Exception e) {
-			return "Houve um erro ao salvar:"  + e.getMessage();
-		}
-	}
-
 	
 	@DeleteMapping("/{id}")
 	public String update(@PathVariable Integer id) {
