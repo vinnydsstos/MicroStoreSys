@@ -12,6 +12,7 @@ This system manage four entitities:
 2. products
 3. orders
 4. address
+5. deliveries
 
 These entities are composed by the following attributes:
 
