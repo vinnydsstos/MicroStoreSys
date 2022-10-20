@@ -15,7 +15,8 @@ This system manage four entitities:
 
 These entities are composed by the following attributes:
 
-![image](https://user-images.githubusercontent.com/13739735/196557427-a63bf565-8e34-49e0-a25b-199621e618a5.png)
+![image](https://user-images.githubusercontent.com/13739735/197055067-3f5a8b74-067d-409a-b9d4-a91718efe721.png)
+
 
 ## ⚙️ Development
 
@@ -59,8 +60,8 @@ Next, the following endpoints should be created:
 
 For testing these end points, use the following payloads:
 
-```json
 Client: 
+```json
 {
   "idClient": 0,
   "clientName": "Name Client"
@@ -68,8 +69,8 @@ Client:
 ```
 
 
-```json
 Product: 
+```json
 {
   "idProduct": 0,
   "productName": "Name Product",
@@ -77,20 +78,37 @@ Product:
 }
 ```
 
-```json
-
 Order: 
+```json
 {
-  "idClient": 1,
-  "idProduct": [1, 2, 3],
-  "address": {
-    "idAddress": 0,
-    "street": "Street Name",
-    "establishmentNumber": 123,
-    "neighborhood": "Neighborhood Name",
-    "complement": "Complement Name",
-    "zipCode": "Zip Code"
+    "client": {
+        "id": 1,
+        "name": "Vinição dos compíuter"
+    },
+    "products": [
+        {
+            "id": 1,
+            "name": "Casa de papel",
+            "value": 10.0
+        }
+    ],
+    "address": {
+        "street": "Serafim vieira dos santos",
+        "stablishmentNumber": 777,
+        "neighborhood": "Primavera 7",
+        "complement": "Apto 22",
+        "zipCode": "35825-000"
     }
+}
+```
+
+Deliveries: 
+```json
+{
+    "status": "Entregue",
+    "deliveredIn": "1990-10-22",
+    "receiver": "Vanessa",
+    "idOrder": 1
 }
 ```
 
