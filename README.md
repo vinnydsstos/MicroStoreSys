@@ -31,6 +31,7 @@ In this sprint, OrderSys will be configured as a maven project using start.sprin
 2. Spring Boot DevTools
 3. H2 Database
 4. Spring for RabbitMQ
+5. Lombok
 
 Next, the following endpoints should be created:
 
