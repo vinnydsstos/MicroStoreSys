@@ -6,6 +6,6 @@ import lombok.Data;
 public class ClientRequest {
 
     private Integer id;
-    private String name;
+    private String clientName;
 
 }

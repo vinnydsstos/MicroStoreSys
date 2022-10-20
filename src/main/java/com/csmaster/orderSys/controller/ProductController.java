@@ -1,7 +1,6 @@
 package com.csmaster.orderSys.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,9 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.csmaster.orderSys.dto.ClientResponse;
+import com.csmaster.orderSys.dto.ProductRequest;
+import com.csmaster.orderSys.dto.ProductResponse;
 import com.csmaster.orderSys.model.Client;
 import com.csmaster.orderSys.model.Product;
 import com.csmaster.orderSys.repository.ProductRepository;
+import com.csmaster.orderSys.util.exceptions.NotFoundException;
+import com.csmaster.orderSys.util.exceptions.PersistenceException;
 
 @RestController
 @RequestMapping("/produto")
@@ -24,50 +28,34 @@ public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
 
-	@GetMapping("/lista")
+	@GetMapping("lista")
 	public List<Product> findAll() {
 		return productRepository.findAll();
 	}
 
-	@GetMapping("/{id}")
-	public Product findById(@PathVariable Integer id) {
-		Optional<Product> cliente = productRepository.findById(id);
-		if (cliente.isPresent()) {
-			return cliente.get();
-		} else {
-			return null;
-		}
+	@GetMapping("{id}")
+	public ProductResponse findById(@PathVariable Integer id) {
+		return productRepository.findById(id).map(ProductResponse::of)
+				.orElseThrow(() -> new NotFoundException("Cliente não encontrado."));
+
 	}
-	
+
 	@PostMapping
-	public String save(@RequestBody Product product) {
-		System.out.println(product);
+	public ProductResponse save(@RequestBody ProductRequest request) {
 		try {
-			productRepository.save(product);
-			return "Sucesso";
+			return ProductResponse.of(productRepository.save(Product.of(request)));
 		} catch (Exception e) {
-			return "Houve um erro ao adicionar";
-		}
-	}
-	
-	@PutMapping
-	public String update(@RequestBody Product product) {
-		try {
-			productRepository.save(product);
-			return "Sucesso";
-		} catch (Exception e) {
-			return "Houve um erro ao adicionar";
+			throw new PersistenceException("Erro ao salver cliente");
 		}
 	}
 
-	
-	@DeleteMapping("/{id}")
-	public String update(@PathVariable Integer id) {
+	@DeleteMapping("{id}")
+	public String delete(@PathVariable Integer id) {
 		try {
 			productRepository.deleteById(id);
 			return "Sucesso";
 		} catch (Exception e) {
-			return "Houve um erro ao adicionar";
+			throw new PersistenceException("Erro ao remover cliente");
 		}
 	}
 

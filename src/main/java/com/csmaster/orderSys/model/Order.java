@@ -1,10 +1,13 @@
 package com.csmaster.orderSys.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
 import com.csmaster.orderSys.dto.OrderRequest;
+import com.csmaster.orderSys.dto.ProductResponse;
+
 import lombok.*;
 
 @Data
@@ -27,10 +30,9 @@ public class Order {
 			foreignKey = @ForeignKey(name = "FK_ORDER_CLIENT"))
 	private Client client;
 
-	@Column
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "FK_ADDRESS", referencedColumnName = "ID",
-			foreignKey = @ForeignKey(name = "FK_OREDER_ADDRESS"))
+			foreignKey = @ForeignKey(name = "FK_ORDER_ADDRESS"))
 	private Address address;
 
 	@ManyToMany(targetEntity = Product.class)
@@ -39,7 +41,8 @@ public class Order {
 	public static Order of(OrderRequest request) {
 		return Order.builder()
 				.idOrder(request.getIdOrder())
-				.client(Client.of(request.getClientRequest()))
+				.client(Client.of(request.getClient()))
+				.products(request.getProducts().stream().map(Product::of).collect(Collectors.toList()))
 				.address(Address.of(request.getAddress()))
 				.build();
 	}

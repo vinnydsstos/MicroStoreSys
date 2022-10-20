@@ -1,3 +1,4 @@
+
 package com.csmaster.orderSys.controller;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class ClientController {
 			clientRepository.deleteById(id);
 			return "Sucesso";
 		} catch (Exception e) {
-			return "Houve um erro ao adicionar";
+			return "Houve um erro ao remover o cliente";
 		}
 	}
 

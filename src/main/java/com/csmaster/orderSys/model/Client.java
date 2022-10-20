@@ -42,7 +42,7 @@ public class Client {
 	public static Client of(ClientRequest request) {
 		return Client.builder()
 				.idClient(request.getId())
-				.clientName(request.getName())
+				.clientName(request.getClientName())
 				.build();
 	}
 }
