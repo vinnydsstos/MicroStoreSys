@@ -39,6 +39,7 @@ public class Product {
 		this.idProduct = id;
 	}
 	
+	
 	public static Product of(ProductRequest request) {
 		return Product.builder()
 				.idProduct(request.getId())
@@ -46,4 +47,6 @@ public class Product {
 				.productValue(request.getProductValue())
 				.build();
 	}
+
+
 }

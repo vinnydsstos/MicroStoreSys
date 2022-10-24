@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.csmaster.orderSys.dto.OrderRequest;
 import com.csmaster.orderSys.dto.OrderResponse;
-import com.csmaster.orderSys.dto.ProductResponse;
+import com.csmaster.orderSys.messager.config.DeliveryQueueSender;
 import com.csmaster.orderSys.model.Order;
-import com.csmaster.orderSys.model.Product;
 import com.csmaster.orderSys.repository.AddressRepository;
 import com.csmaster.orderSys.repository.OrdersRepository;
 import com.csmaster.orderSys.util.exceptions.NotFoundException;
 import com.csmaster.orderSys.util.exceptions.PersistenceException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/pedido")
@@ -30,6 +30,10 @@ public class OrdersController {
 
 	@Autowired
 	private AddressRepository addressRepository;
+	
+
+    @Autowired
+    private DeliveryQueueSender deliveryQueue;
 
 	@GetMapping("lista")
 	public List<Order> findAll() {
@@ -45,8 +49,10 @@ public class OrdersController {
 	@PostMapping
 	public OrderResponse save(@RequestBody OrderRequest request) {
 		try {
-			return OrderResponse.of(ordersRepository.save(Order.of(request)));
-		} catch (Exception e) {
+	        deliveryQueue.send(request);
+	    	return OrderResponse.of(ordersRepository.save(Order.of(request)));
+    	} catch (Exception e) {
+    		e.printStackTrace();
 			throw new PersistenceException("Erro ao salvar cliente");
 		}
 	}

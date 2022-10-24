@@ -11,6 +11,6 @@ public class DeliveryRequest {
 	private String status;
 	private Date deliveredIn;
 	private String receiver;
-	private Integer idOrder;
+	private OrderRequest order;
 
 }

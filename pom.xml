@@ -18,7 +18,7 @@
 	<description>This is a very simple system which aims to create an API using SpringBoot in order to add and consume a queue with RabbitMQ and store data in an H2 database. </description>
 
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 	</properties>
 
 	<dependencies>

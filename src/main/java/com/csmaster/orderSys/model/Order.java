@@ -37,6 +37,11 @@ public class Order {
 
 	@ManyToMany(targetEntity = Product.class)
 	private List<Product> products;
+	
+
+	public Order(Integer idOrder) {
+		this.idOrder = idOrder;
+	}
 
 	public static Order of(OrderRequest request) {
 		return Order.builder()
@@ -46,4 +51,7 @@ public class Order {
 				.address(Address.of(request.getAddress()))
 				.build();
 	}
+
+
+
 }

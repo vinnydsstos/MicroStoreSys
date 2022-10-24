@@ -16,7 +16,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.ui.ModelMap;
+
 import com.csmaster.orderSys.dto.DeliveryRequest;
+import com.csmaster.orderSys.dto.OrderRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,6 +59,8 @@ public class Delivery {
 	public Delivery(Integer idDelivery) {
 		this.idDelivery = idDelivery;
 	}
+	
+	
 
 	public static Delivery of(DeliveryRequest request) {
 		
@@ -64,7 +69,7 @@ public class Delivery {
 				.status(request.getStatus())
 				.deliveredIn(request.getDeliveredIn())
 				.receiver(request.getReceiver())
-				.order(Order.builder().idOrder(request.getIdOrder()).build())
+				.order(Order.of(request.getOrder()))
 				.build();
 	}
 }
