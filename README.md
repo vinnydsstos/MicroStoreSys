@@ -116,14 +116,25 @@ Deliveries:
 
 ### Sprint 02 - RabbitMQ integration
 
-In this step, the RabbitMQ should be used to add and consume a queue.
-
-⚠️ this feature will be detailed soon
+RabbitMQ should be implemented as simply as possible, for this, you I've configured it to create a queue. In controller, I've send a message to that queue, next a consumer was built to receive messages from the queue and print them to the terminal.
 
 
 ### Sprint 03 - Docker
 
-In this step, a docker container should be created to run the application.
+Since this application only requires RabbitMQ installed and running. This systems uses the following script to download and run this container:
 
-⚠️ this feature will be detailed soon
-
+```
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes: 
+      - .dados:/var/lib/rabbitmq/
+    environment: 
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=123456
+```
