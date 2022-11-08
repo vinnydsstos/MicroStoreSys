@@ -1,7 +1,13 @@
-# Welcome to OrderSys! 
+# Welcome to MicroStoreSys! 
 
-This is a very simple system which aims to create an API using SpringBoot in order to add and consume a queue with RabbitMQ and store data in an H2 database. 
+This software is a simplification of a sales system implemented using Java, Spring framework (boot, data), whose the main goal is to create microservices that are able to handle entities elicited afterwards. Henceforth, this repository document an elegant and modern solution to solve business rules presented in this document. For this, we will be using the following technologies:
 
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![RabbitMQ](https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white)
+
+
+Note: A memory database is used (h2 database), lombok is also used to reduce getters and setters. 
 
 
 ## System Overview
@@ -85,7 +91,7 @@ Order:
 {
     "client": {
         "id": 1,
-        "name": "Vinição dos compíuter"
+        "name": "Vinicius dos Santos"
     },
     "products": [
         {
